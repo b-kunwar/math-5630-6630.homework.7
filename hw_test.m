@@ -26,30 +26,35 @@ hw_assert( abs (y(end) - exact3(tf)) < 1e-4 );
 y=hw07_worker.p1(@func3, y0, [t0, tf], 10, 'rk4');
 hw_assert( abs (y(end) - exact3(tf)) < 1e-4 );
 
-function ret = func1(t, y) 
-    ret = y;
+% test for p2
+%> hw07.p2('euler');
+%> hw07.p2('midpoint');
+%> hw07.p2('rk4');
+
+function ret = func1(t, y)
+ret = y;
 end
 
-function ret = func2(t, y) 
-    ret = -y;
+function ret = func2(t, y)
+ret = -y;
 end
 
-function ret = func3(t, y) 
-    ret = -y + t;
+function ret = func3(t, y)
+ret = -y + t;
 end
 
 function exact = exact1(t)
-    exact = exp(t);
+exact = exp(t);
 end
 
 function exact = exact2(t)
-    exact = exp(-t);
+exact = exp(-t);
 end
 
 function exact = exact3(t)
-    exact = 2 * exp(-t) + t - 1;
+exact = 2 * exp(-t) + t - 1;
 end
 
 function hw_assert(X)
-    if X; fprintf('\t PASS\n'); else; fprintf('\t FAIL\n'); end
+if X; fprintf('\t PASS\n'); else; fprintf('\t FAIL\n'); end
 end

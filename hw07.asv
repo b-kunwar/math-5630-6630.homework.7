@@ -88,12 +88,7 @@ classdef hw07
             % However, the disagreement is huge for tspan [0,5], especially for bigger step size, which seem to work fine on tspan [0,1] and [0,3].
 
             % RK4
-            % On the interval [0,1], and [0,3], all step size results close to exact solution. The rate of convergence is 4th order. As step size is decreased, error reduces at that order.
-            % On the interval [0,5], the error is reduced greatly close to
-            % t = 5, where euler and midpoint method gave larger error. The
-            % error magnitude itself dropped to 10^-2 (where we got postive
-            % error with the previous methods). The error is O(h^4) for
-            % some tspan [0,1] not for [0,3] and [0,5]
+            % On the interval [0,1], and [0,3], all step size results close to exact solution. The rate of convergence is 4th order. As step size is decreased,  
 
 
 
