@@ -3,12 +3,12 @@
 % Assignment Name: hw07
 
 classdef hw07
-    
+
     methods (Static)
         function y = p1(func, y0, tspan, n_steps, method)
             % Solves the ODE y' = f(t, y) with initial condition y(t0) = y0 using the specified method (euler, rk4, midpoint).
-            % over the interval tspan=[a, b] with n_steps. The function f(t, y) is provided as a function handle. 
-            % 
+            % over the interval tspan=[a, b] with n_steps. The function f(t, y) is provided as a function handle.
+            %
             %:param func: function handle f(t, y) that defines the ODE y' = f(t, y)
             %:param y0: initial condition y(t0) = y0
             %:param tspan: interval [a, b] over which to solve the ODE
@@ -16,28 +16,41 @@ classdef hw07
             %:param method: string that specifies the method to use. It can be 'euler', 'midpoint', or 'rk4'
             %
             %:return: none, but plots the solution y(t) over the interval tspan
-            
+
             % Your implementation here. Euler method is implemented for an example. Implement the other methods.
 
-            t0 = tspan(1); 
-            tf = tspan(2); 
-            
-            h = (tf - t0) / n_steps; 
-            t = t0:h:tf; 
-            y = zeros(1, length(t)); 
-            
+            t0 = tspan(1);
+            tf = tspan(2);
+
+            h = (tf - t0) / n_steps;
+            t = t0:h:tf;
+            y = zeros(1, length(t));
+
             y(1) = y0;
 
             if strcmp(method, 'euler')
                 for i = 1:n_steps
                     k1 = func(t(i), y(i));
                     y(i+1) = y(i) + h * k1;
-                end  
+                end
             elseif strcmp(method, 'rk4')
                 % your code for Runge-Kutta 4 method here
+                for i = 1:n_steps
+                    k1 = func(t(i), y(i));
+                    k2 = func(t(i) + h/2, y(i) + h/2 * k1);
+                    k3 = func(t(i) + h/2, y(i) + h/2 * k2);
+                    k4 = func(t(i) + h, y(i) + h * k3);
+                    y(i+1) = y(i) + (h/6) * (k1 + 2*k2 + 2*k3 + k4);
+                end
 
             elseif strcmp(method, 'midpoint')
                 % your code for Midpoint method here
+                for i = 1:n_steps
+                k1 = func(t(i), y(i));
+                y_mid = y(i) + (h/2) * k1; % Midpoint
+                t_mid = t(i) + h/2; % Time at midpoint
+                y(i+1) = y(i) + h * func(t_mid, y_mid); % Full step
+                end
 
             else
                 error('Invalid method. Choose "euler", "rk4", or "midpoint".');
@@ -46,10 +59,10 @@ classdef hw07
 
         function p2(method)
             % Test the implemented methods on the ODE
-            % y' = t(y - t sin(t)) with initial condition y(0) = 1 over the interval [0, 1], [0, 3], and [0, 5] with variable step lengths. 
+            % y' = t(y - t sin(t)) with initial condition y(0) = 1 over the interval [0, 1], [0, 3], and [0, 5] with variable step lengths.
 
-            % 
-            % Plot the solution y(t) over the interval for various step sizes h. And plot the 
+            %
+            % Plot the solution y(t) over the interval for various step sizes h. And plot the
             % exact solution y(t) = t sin(t) + cos(t) over the same interval.
             %
             % Run the commands below to test the implemented methods:
@@ -58,12 +71,12 @@ classdef hw07
             %> hw07.p2('midpoint');
             %> hw07.p2('rk4');
             %
-            % Observe the solution and error plots for the numerical solutions with different step sizes. Write your observations in the comments. 
+            % Observe the solution and error plots for the numerical solutions with different step sizes. Write your observations in the comments.
 
-            % Your comment here (e.g, how does the error change with step size and the time span, etc.): 
-            % 
-            % 
-            % 
+            % Your comment here (e.g, how does the error change with step size and the time span, etc.):
+            %
+            %
+            %
             %
             %
 
@@ -108,13 +121,13 @@ classdef hw07
 
         function p3()
             % For 6630 ONLY
-            % First implement the 3/8 rule for Runge Kutta method. 
-            % 
-            % The implementation should be done in the function rk4_38_rule below. It is a subfunction which can only be called within p3 method.
-            % Then run hw07.p3() and compare the results with the 4th order Runge Kutta method. Write your observations in the comments. 
+            % First implement the 3/8 rule for Runge Kutta method.
             %
-            % Your comment here (e.g, how does the error change with step size and the time span, is there a clear difference in the running time and error (you may need to run a few times to conclude), etc.): 
-            % 
+            % The implementation should be done in the function rk4_38_rule below. It is a subfunction which can only be called within p3 method.
+            % Then run hw07.p3() and compare the results with the 4th order Runge Kutta method. Write your observations in the comments.
+            %
+            % Your comment here (e.g, how does the error change with step size and the time span, is there a clear difference in the running time and error (you may need to run a few times to conclude), etc.):
+            %
             %
             %
             %
@@ -127,18 +140,18 @@ classdef hw07
                 %:param tspan: interval [a, b] over which to solve the ODE
                 %:param n_steps: number of steps to take to solve the ODE, interval size = (b-a)/n_steps.
 
-                t0 = tspan(1); 
-                tf = tspan(2); 
-                
-                h = (tf - t0) / n_steps; 
-                t = t0:h:tf; 
-                y = zeros(1, length(t)); 
-                
+                t0 = tspan(1);
+                tf = tspan(2);
+
+                h = (tf - t0) / n_steps;
+                t = t0:h:tf;
+                y = zeros(1, length(t));
+
                 y(1) = y0;
 
                 % write your code here.
             end
-            
+
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             %
             % Do not modify the code below this line.
@@ -166,13 +179,13 @@ classdef hw07
                         y1=rk4_38_rule(f, y0, [t0, tf], n_steps);
                     end
                     runtime1(ind) = toc/100;
-                    
+
                     tic;% run 100 times and take the average time
                     for run = 1:100
                         y2=hw07.p1(f, y0, [t0, tf], n_steps, 'rk4');
-                    end                    
+                    end
                     runtime2(ind) = toc/100;
-                    
+
                     error1(ind) = max(abs(y1 - exact_sol(t0:hs(ind):tf)));
                     error2(ind) = max(abs(y2 - exact_sol(t0:hs(ind):tf)));
                 end
@@ -191,7 +204,7 @@ classdef hw07
                 hold off;
                 title(['Runtime vs. Step Size for y'' = t(y - t sin(t))', ' on [', num2str(t0), ', ', num2str(tf), ']']); xlabel('Step Size (h)'); ylabel('Runtime (s)'); grid on; legend("Location", 'best');
             end
-            
+
         end
     end
 end
