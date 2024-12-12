@@ -46,10 +46,10 @@ classdef hw07
             elseif strcmp(method, 'midpoint')
                 % your code for Midpoint method here
                 for i = 1:n_steps
-                k1 = func(t(i), y(i));
-                y_mid = y(i) + (h/2) * k1; % Midpoint
-                t_mid = t(i) + h/2; % Time at midpoint
-                y(i+1) = y(i) + h * func(t_mid, y_mid); % Full step
+                    k1 = func(t(i), y(i));
+                    y_mid = y(i) + (h/2) * k1; % Midpoint
+                    t_mid = t(i) + h/2; % Time at midpoint
+                    y(i+1) = y(i) + h * func(t_mid, y_mid); % Full step
                 end
 
             else
@@ -88,7 +88,12 @@ classdef hw07
             % However, the disagreement is huge for tspan [0,5], especially for bigger step size, which seem to work fine on tspan [0,1] and [0,3].
 
             % RK4
-            % On the interval [0,1], and [0,3], all step size results close to exact solution. The rate of convergence is 4th order. As step size is decreased,  
+            % On the interval [0,1], and [0,3], all step size results close to exact solution. The rate of convergence is 4th order. As step size is decreased, error reduces at that order.
+            % On the interval [0,5], the error is reduced greatly close to
+            % t = 5, where euler and midpoint method gave larger error. The
+            % error magnitude itself dropped to 10^-2 (where we got postive
+            % error with the previous methods). The error is O(h^4) for
+            % some tspan [0,1] not for [0,3] and [0,5]
 
 
 
@@ -141,8 +146,11 @@ classdef hw07
             % Then run hw07.p3() and compare the results with the 4th order Runge Kutta method. Write your observations in the comments.
             %
             % Your comment here (e.g, how does the error change with step size and the time span, is there a clear difference in the running time and error (you may need to run a few times to conclude), etc.):
-            %
-            %
+            % The 3/8 rule performs slightly better than Rk4 in terms of
+            % error. The convergence is 4 th order for 3/8
+            % and slightly less for RK4. However, the difference is minimal to make any
+            % practical difference.   
+            % The run times are also similar with minor fluctations. 
             %
             %
             %
@@ -164,6 +172,21 @@ classdef hw07
                 y(1) = y0;
 
                 % write your code here.
+                % Loop through each time step
+         
+                for i = 1:n_steps
+                    tn = t(i);
+                    yn = y(i);
+
+                    % Compute the Runge-Kutta coefficients
+                    k1 = func(tn, yn);
+                    k2 = func(tn + h/3, yn + h*k1/3);
+                    k3 = func(tn + 2*h/3, yn - h*k1/3 + h*k2);
+                    k4 = func(tn + h, yn + h*k1 - h*k2 + h*k3);
+
+                    % Update the solution using the 3/8 rule
+                    y(i+1) = yn + h/8 * (k1 + 3*k2 + 3*k3 + k4);
+                end
             end
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

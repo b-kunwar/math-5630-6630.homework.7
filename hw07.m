@@ -46,10 +46,10 @@ classdef hw07
             elseif strcmp(method, 'midpoint')
                 % your code for Midpoint method here
                 for i = 1:n_steps
-                k1 = func(t(i), y(i));
-                y_mid = y(i) + (h/2) * k1; % Midpoint
-                t_mid = t(i) + h/2; % Time at midpoint
-                y(i+1) = y(i) + h * func(t_mid, y_mid); % Full step
+                    k1 = func(t(i), y(i));
+                    y_mid = y(i) + (h/2) * k1; % Midpoint
+                    t_mid = t(i) + h/2; % Time at midpoint
+                    y(i+1) = y(i) + h * func(t_mid, y_mid); % Full step
                 end
 
             else
@@ -146,11 +146,13 @@ classdef hw07
             % Then run hw07.p3() and compare the results with the 4th order Runge Kutta method. Write your observations in the comments.
             %
             % Your comment here (e.g, how does the error change with step size and the time span, is there a clear difference in the running time and error (you may need to run a few times to conclude), etc.):
-            %
-            %
-            %
-            %
-            %
+            % The 3/8 rule performs slightly better than Rk4 in terms of
+            % error. The convergence is 4 th order for 3/8
+            % and slightly less for RK4. However, the difference is minimal to make any
+            % practical difference. The run times are also similar with minor fluctations. 
+            % At very small step sizze (< 10^-3), the
+            % error, convergecne and run time are almost coincident.
+        
 
             function y = rk4_38_rule(func, y0, tspan, n_steps)
                 % rk4_38_rule: Runge-Kutta method with 4th order and 3/8 rule for a system of ODEs.
@@ -169,6 +171,21 @@ classdef hw07
                 y(1) = y0;
 
                 % write your code here.
+                % Loop through each time step
+         
+                for i = 1:n_steps
+                    tn = t(i);
+                    yn = y(i);
+
+                    % Compute the Runge-Kutta coefficients
+                    k1 = func(tn, yn);
+                    k2 = func(tn + h/3, yn + h*k1/3);
+                    k3 = func(tn + 2*h/3, yn - h*k1/3 + h*k2);
+                    k4 = func(tn + h, yn + h*k1 - h*k2 + h*k3);
+
+                    % Update the solution using the 3/8 rule
+                    y(i+1) = yn + h/8 * (k1 + 3*k2 + 3*k3 + k4);
+                end
             end
 
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -58,3 +58,5 @@ end
 function hw_assert(X)
 if X; fprintf('\t PASS\n'); else; fprintf('\t FAIL\n'); end
 end
+
+hw07.p3()
