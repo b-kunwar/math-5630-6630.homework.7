@@ -1,4 +1,4 @@
-% Author: Your Name / your_email
+% Author: Bikash Kunwar / bzk0067@auburn.edu
 % Date: 2024-09-01
 % Assignment Name: hw07
 
